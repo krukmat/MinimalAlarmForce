@@ -7,9 +7,9 @@ app = Flask(__name__)
 
 @app.route('/armed')
 def index():
-    value = request.args.get('armed', '')
+    value = request.args.get('armed', '0')
     channel = request.args.get('channel_id')
-    message = value + ";" + value + ";MQTT"
+    message = channel + ";" + value + ";MQTT"
     if value and channel:
         client = mqtt_ioticos.connect_mqtt()
         mqtt_ioticos.mqtt_publish(client, message)
