@@ -16,6 +16,8 @@ const char *mqtt_ip_topic = "htO9wfUxA50uzDS/output";
 const char *mqtt_ip_topic_subscribe = "htO9wfUxA50uzDS/input";
 int armed = 1;
 
+TaskHandle_t taskSendStatus;
+
 void mqttCallback(char* topic, byte* payload, unsigned int length);
 void mqttReconnect();
 
@@ -89,6 +91,14 @@ void mqttLoop(){
   mqttIPClient.loop();
 }
 
+void taskSendStatusMethod( void * parameter) {
+  String statusMsg;
+  for(;;) {
+    mqttLoop();
+    delay(100);
+  }
+}
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
@@ -106,12 +116,20 @@ void setup() {
   mqttIPClient.setServer(mqtt_ip, mqtt_ip_port);
   mqttIPClient.setCallback(mqttCallback);
   bootUp();
+  
+  xTaskCreatePinnedToCore(
+      taskSendStatusMethod, /* Function to implement the task */
+      "taskSendStatus", /* Name of the task */
+      10000,  /* Stack size in words */
+      NULL,  /* Task input parameter */
+      0,  /* Priority of the task */
+      &taskSendStatus,  /* Task handle. */
+      0); /* Core where the task should run */
 }
 
 
 void loop() {
   // put your main code here, to run repeatedly:
-  mqttLoop();
   int movSensor = digitalRead(12);
   if (movSensor == 1 && armed == 1) {
     digitalWrite(2, 1);

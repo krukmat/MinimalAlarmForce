@@ -1,0 +1,27 @@
+<!--
+  @description       : 
+  @author            : Matias Kruk
+  @group             : 
+  @last modified on  : 05-20-2021
+  @last modified by  : Matias Kruk
+  Modifications Log 
+  Ver   Date         Author        Modification
+  1.0   05-20-2021   Matias Kruk   Initial Version
+-->
+<template>
+    <lightning-card title="Externo">
+        <lightning-layout>
+            <div class="slds-p-around_small">
+                <lightning-input type="checkbox"
+                     label="Armed"
+                     checked onchange={handleCheckboxChange}>
+                </lightning-input>
+                <lightning-button variant="brand" 
+                    label="Enviar a Alarma"
+                    onclick={handleClick}>
+                </lightning-button>
+                <br/>
+            </div>
+        </lightning-layout>
+    </lightning-card>
+</template>
