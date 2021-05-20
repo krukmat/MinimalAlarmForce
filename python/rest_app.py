@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route('/armed')
 def index():
-    value = request.args.get('armed', '0')
+    value = request.args.get('value', '0')
     channel = request.args.get('channel_id')
     message = channel + ";" + value + ";MQTT"
     if value and channel:
