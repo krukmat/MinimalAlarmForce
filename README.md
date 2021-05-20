@@ -27,5 +27,6 @@ The stack selected:
 ![Schematics](https://github.com/krukmat/CentralAlarmForce/blob/390de5740e9e64eadbeb8ba5ed9c90c8c3ecb865/Arduino/images/Schematics.png)
 
 ## Salesforce: 
+![Schematics](https://github.com/krukmat/MinimalAlarmForce/blob/3ba9fd4c1d5bf79fed0edfea5b9bedb2016994d6/images/armado.png)
 ![Schematics](https://raw.githubusercontent.com/krukmat/AlarmForce-Demo/mqtt/images/email%20alert.png)
 ![Schematics](https://github.com/krukmat/CentralAlarmForce/blob/735e282a2d621d94789de106fbdaf14bafff708b/Arduino/images/email.png)
