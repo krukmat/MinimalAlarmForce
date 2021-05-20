@@ -1,6 +1,11 @@
 # MinimalAlarmForce
 A new fork for AlarmForce. The version that simplifies AlarmForce. It uses esp32 deep wake up mechanism through a pin instead of wifi communication.
 The stack selected:
+* Features: 
+    * Online monitoring.
+    * Email alerts
+    * Remote arm/disarm
+    * Complete tracking of activitites through Salesforce
 * IOT Proxy:
     * Thingspeak(MQTT)
 *  Hardware:
