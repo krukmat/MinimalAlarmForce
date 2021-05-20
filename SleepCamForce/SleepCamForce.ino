@@ -259,23 +259,21 @@ void setup() {
   config.pin_reset = RESET_GPIO_NUM;
   config.xclk_freq_hz = 5000000;
   config.pixel_format = PIXFORMAT_JPEG;
+  
+  config.frame_size = FRAMESIZE_SVGA;
+  config.jpeg_quality = 12;
+  config.fb_count = 1;
+
 
   //pinMode(4,INPUT);
   //digitalWrite(4,LOW);
   //rtc_gpio_hold_dis(GPIO_NUM_4);
+  pinMode(4, OUTPUT);
+  digitalWrite(4, LOW);
+  rtc_gpio_hold_en(GPIO_NUM_4);
 
   pinMode(GPIO_NUM_12, INPUT);
   //pinMode(GPIO_NUM_12, INPUT_PULLUP);
-
-  if(psramFound()){
-    config.frame_size = FRAMESIZE_UXGA;
-    config.jpeg_quality = 10;
-    config.fb_count = 2;
-  }else{
-    config.frame_size = FRAMESIZE_SVGA;
-    config.jpeg_quality = 12;
-    config.fb_count = 1;
-  }
 
   //Init Camera
   esp_err_t err = esp_camera_init(&config);
@@ -313,7 +311,49 @@ void setup() {
   Serial.println("' to connect");
   print_wakeup_reason();
 
+  /*camera_fb_t * frame;
+  frame = esp_camera_fb_get();
+ 
+  dl_matrix3du_t *image_matrix = dl_matrix3du_alloc(1, frame->width, frame->height, 3);
+  fmt2rgb888(frame->buf, frame->len, frame->format, image_matrix->item);
+ 
+  esp_camera_fb_return(frame);
+  mtmn_config_t mtmn_config = {0};
+
+  
+  mtmn_config.type = FAST;
+  mtmn_config.min_face = 80;
+  mtmn_config.pyramid = 0.707;
+  mtmn_config.pyramid_times = 4;
+  mtmn_config.p_threshold.score = 0.6;
+  mtmn_config.p_threshold.nms = 0.7;
+  mtmn_config.p_threshold.candidate_number = 20;
+  mtmn_config.r_threshold.score = 0.7;
+  mtmn_config.r_threshold.nms = 0.7;
+  mtmn_config.r_threshold.candidate_number = 10;
+  mtmn_config.o_threshold.score = 0.7;
+  mtmn_config.o_threshold.nms = 0.7;
+  mtmn_config.o_threshold.candidate_number = 1;
+    
+  
+  mtmn_config = mtmn_init_config();
+
+ 
+  box_array_t *boxes = face_detect(image_matrix, &mtmn_config);
+ 
+  if (boxes != NULL) {
+    sendData();
+ 
+    dl_lib_free(boxes->score);
+    dl_lib_free(boxes->box);
+    dl_lib_free(boxes->landmark);
+    dl_lib_free(boxes);
+  }
+ 
+  dl_matrix3du_free(image_matrix);*/
   sendData();
+
+
   
   //Turns off the ESP32-CAM white on-board LED (flash) connected to GPIO 4
   //pinMode(4, OUTPUT);
