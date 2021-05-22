@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : Matias Kruk
  * @group             : 
- * @last modified on  : 05-20-2021
+ * @last modified on  : 05-22-2021
  * @last modified by  : Matias Kruk
  * Modifications Log 
  * Ver   Date         Author        Modification
@@ -20,7 +20,7 @@ public with sharing class AlarmForceCallout {
             if (value){
                 parameter = '1';
             }
-            request.setEndpoint('http://image.krukforce.com/alarm/armed?channel_id='+channel_id+'&value='+parameter);
+            request.setEndpoint('http://alarmforce.krukforce.com/alarm/armed?channel_id='+channel_id+'&value='+parameter);
             request.setMethod('GET');        
             System.debug(request.getEndpoint());
             HttpResponse response = http.send(request);

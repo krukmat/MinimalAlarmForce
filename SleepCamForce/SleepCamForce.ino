@@ -71,6 +71,7 @@ const char* password = "xvFYmqRv";
 
 int pictureNumber = 0;
 
+
 void getID(char clientID[], int idLength){
 static const char alphanum[] ="0123456789"
 "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -294,6 +295,7 @@ void setup() {
     Serial.println("No SD Card attached");
     return;  
   }
+  
   WiFi.begin(ssid, password);
 
   while (WiFi.status() != WL_CONNECTED) {

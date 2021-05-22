@@ -1,6 +1,7 @@
 #include <HTTPClient.h>
 #include <PubSubClient.h>
 #include <WiFi.h>
+#include <esp_now.h>
 
 const char* ssid = "MIWIFI_2G_2jJ5";
 const char* password = "xvFYmqRv";
@@ -15,8 +16,24 @@ const char* mqtt_ip_password = "ASJ5c61zVvtuib7";
 const char *mqtt_ip_topic = "htO9wfUxA50uzDS/output";
 const char *mqtt_ip_topic_subscribe = "htO9wfUxA50uzDS/input";
 int armed = 1;
+typedef struct shoot_on_demand {
+  bool shoot;
+  String deviceId;
+};
+
+shoot_on_demand esp_now_data;
 
 TaskHandle_t taskSendStatus;
+
+void OnRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
+  memcpy(&esp_now_data, incomingData, sizeof(esp_now_data));
+  Serial.print("Señal desde NOW");
+  Serial.print(esp_now_data.shoot); 
+  if (esp_now_data.shoot == true){
+    Serial.print("Disparo de camara");
+    sendSignalToCam();
+  }
+}
 
 void mqttCallback(char* topic, byte* payload, unsigned int length);
 void mqttReconnect();
@@ -104,14 +121,25 @@ void setup() {
   Serial.begin(115200);
   pinMode(2, OUTPUT);
   pinMode(12, INPUT);
+  WiFi.mode(WIFI_AP_STA);
+  Serial.println(WiFi.macAddress());
+  
   WiFi.begin(ssid, password);
-
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
   }
   Serial.println("");
   Serial.println("WiFi connected");
+  
+
+  if (esp_now_init() != ESP_OK) {
+    Serial.println("There was an error initializing ESP-NOW");
+    return;
+  }
+  
+  esp_now_register_recv_cb(OnRecv);
+
 
   mqttIPClient.setServer(mqtt_ip, mqtt_ip_port);
   mqttIPClient.setCallback(mqttCallback);
@@ -127,16 +155,19 @@ void setup() {
       0); /* Core where the task should run */
 }
 
+void sendSignalToCam(){
+  digitalWrite(2, 1);  
+  delay(1000);
+  digitalWrite(2, 0);
+  delay(60000);
+}
 
 void loop() {
   // put your main code here, to run repeatedly:
   int movSensor = digitalRead(12);
   if (movSensor == 1 && armed == 1) {
-    digitalWrite(2, 1);
-    Serial.println("Sensor movement detection!");
-    delay(1000);
-    digitalWrite(2, 0);
-    delay(60000);    
+    sendSignalToCam();
+    Serial.println("Sensor movement detection!");    
   } else {
     delay(100);
   }
