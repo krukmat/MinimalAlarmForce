@@ -44,7 +44,7 @@ int fieldsToPublish[8]={1,0,0,0,0,0,0,0};             // Change to allow multipl
 long dataToPublish[8];
 String local_address;
 
-const char* ssid = "MIWIFI_2G_2jJ5";
+const char* ssid = "MIWIFI_5G_2jJ5_EXT";
 const char* password = "xvFYmqRv";
 
 

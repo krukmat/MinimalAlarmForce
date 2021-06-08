@@ -3,7 +3,7 @@
 #include <WiFi.h>
 #include <esp_now.h>
 
-const char* ssid = "MIWIFI_2G_2jJ5";
+const char* ssid = "MIWIFI_5G_2jJ5_EXT";
 const char* password = "xvFYmqRv";
 
 const String channelId = "1299306"; // Usado para identificar el canal
